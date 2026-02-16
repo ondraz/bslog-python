@@ -22,4 +22,3 @@ htmlcov/
 coverage.xml
 *.log
 .DS_Store
-uv.lock
