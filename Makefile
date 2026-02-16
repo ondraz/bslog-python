@@ -3,6 +3,7 @@ install:        ## Install bslog
 
 install-dev:    ## Install bslog with all dev dependencies
 	uv sync
+	pre-commit install
 
 check:          ## Run tests, ruff, and mypy
 	uv run pytest --cov=bslog -v

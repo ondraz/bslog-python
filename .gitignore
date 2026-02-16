@@ -22,3 +22,5 @@ htmlcov/
 coverage.xml
 *.log
 .DS_Store
+*.code-workspace
+.idea/
