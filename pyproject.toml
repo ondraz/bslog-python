@@ -1,0 +1,62 @@
+[project]
+name = "bslog"
+dynamic = ["version"]
+description = "CLI tool for querying Better Stack logs via ClickHouse SQL"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.13"
+authors = [
+    { name = "Ondra Zahradnik", email = "ondra.zahradnik@gmail.com" }
+]
+keywords = ["betterstack", "logs", "cli", "clickhouse"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Logging",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "typer[all]>=0.15.0",
+    "httpx>=0.28.0",
+    "python-dotenv>=1.1.0",
+]
+
+[project.scripts]
+bslog = "bslog.cli:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=6.0",
+    "ruff>=0.9.0",
+    "mypy>=1.14",
+    "twine>=6.0",
+    "pre-commit>=4.5.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "bslog/_version.py"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
