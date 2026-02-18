@@ -19,7 +19,7 @@ classifiers = [
     "Topic :: Utilities",
 ]
 dependencies = [
-    "typer[all]>=0.15.0",
+    "typer>=0.15.0",
     "httpx>=0.28.0",
     "python-dotenv>=1.1.0",
 ]
