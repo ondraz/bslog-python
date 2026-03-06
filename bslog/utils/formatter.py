@@ -6,6 +6,7 @@ import re
 from typing import Any
 
 from rich.console import Console
+from rich.markup import escape
 from rich.table import Table
 
 OutputFormat = str  # "json" | "table" | "csv" | "pretty"
@@ -61,7 +62,7 @@ def _format_pretty(data: list[DisplayRow]) -> str:
         line = f"[dim]{timestamp_value}[/dim] {level_text}"
         if subsystem:
             line += f" [cyan]\\[{subsystem}][/cyan]"
-        line += f" {message}"
+        line += f" {escape(message)}"
 
         # Render with Rich to get ANSI codes
         buf = io.StringIO()
@@ -74,7 +75,7 @@ def _format_pretty(data: list[DisplayRow]) -> str:
             for key, value in extra_fields.items():
                 extra_buf = io.StringIO()
                 temp_console2 = Console(file=extra_buf, highlight=False, force_terminal=True, width=200)
-                temp_console2.print(f"  [dim]{key}[/dim]: {_format_value(value)}", end="")
+                temp_console2.print(f"  [dim]{escape(key)}[/dim]: {escape(_format_value(value))}", end="")
                 output.append(extra_buf.getvalue())
 
     return "\n".join(output)
@@ -279,4 +280,4 @@ def format_bytes(byte_count: int) -> str:
     import math
 
     i = int(math.floor(math.log(byte_count) / math.log(k)))
-    return f"{byte_count / k ** i:.2f} {sizes[i]}"
+    return f"{byte_count / k**i:.2f} {sizes[i]}"

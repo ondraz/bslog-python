@@ -7,6 +7,7 @@ from collections.abc import Callable
 from typing import Any
 
 from rich.console import Console
+from rich.markup import escape
 
 from bslog.api.query import QueryAPI
 from bslog.types import QueryOptions
@@ -96,7 +97,7 @@ def tail_logs(
             api, query_options, list(resolved_sources), follow=follow, interval=interval, fmt=fmt, jq_filter=jq_filter
         )
     except Exception as e:
-        console.print(f"[red]Tail error: {e}[/red]")
+        console.print(f"[red]Tail error: {escape(str(e))}[/red]")
         sys.exit(1)
 
 
@@ -146,10 +147,7 @@ def _run_single_source(
                     continue
 
                 filtered = (
-                    [
-                        entry for entry in new_results
-                        if not last_timestamp or entry.get("dt", "") > last_timestamp
-                    ]
+                    [entry for entry in new_results if not last_timestamp or entry.get("dt", "") > last_timestamp]
                     if last_timestamp
                     else new_results
                 )
@@ -159,7 +157,7 @@ def _run_single_source(
                 _print_results(filtered, output_format, jq_filter)
                 last_timestamp = filtered[0].get("dt")
             except Exception as e:
-                console.print(f"[red]Polling error: {e}[/red]")
+                console.print(f"[red]Polling error: {escape(str(e))}[/red]")
     except KeyboardInterrupt:
         pass
 
@@ -248,7 +246,7 @@ def _run_multi_source(
                     if not previous or dt > previous:
                         per_source_latest[source] = dt
             except Exception as e:
-                console.print(f"[red]Polling error: {e}[/red]")
+                console.print(f"[red]Polling error: {escape(str(e))}[/red]")
     except KeyboardInterrupt:
         pass
 
